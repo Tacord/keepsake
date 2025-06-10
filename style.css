@@ -1,0 +1,196 @@
+@font-face {
+    font-family: Lato;
+    src: url('Lato-Regular.ttf');
+}
+
+@font-face {
+    font-family: AbrilFatface;
+    src: url('AbrilFatface-Regular.ttf');
+}
+
+@font-face {
+    font-family: Montserrat;
+    src: url('Montserrat-SemiBold.ttf');
+}
+
+
+body {
+    background: #393D3F;
+    overflow: hidden;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes fade-down{
+    0% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.9);
+    }
+
+    100% {
+        opacity: 100;
+        transform: translateY(0px) scale(1);
+    }
+}
+
+.intro {
+    animation: fade-down 0.75s ease-in-out;
+}
+
+.rainbow{
+    border-radius: 7px;
+    position: relative;
+    background-color: #1b1b1b;
+    height: 30rem;
+    width: 50rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.rainbow::before{
+    filter: blur(5rem);
+    opacity: 0.8;
+}
+
+@property --angle{
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes spin{
+    from{
+        --angle:0deg;
+    }
+    to{
+        --angle:360deg;
+    }
+}
+
+.rainbow::after, .rainbow::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), #ff4545, #2efd02, #2600ff, #ff4545);
+    top: 50%;
+    left:50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 4px;
+    border-radius: 7px;
+    animation: 3s spin linear infinite;
+}
+
+
+h1 {
+    font: 3rem Montserrat, sans-serif;
+}
+
+h2 {
+    font: 2rem Lato, sans-serif;
+}
+
+h3 {
+    font: 1.5rem Lato, sans-serif;
+}
+h4 {
+    font: 0.75rem Lato, sans-serif;
+}
+
+.startbtn {
+    font: 2.25rem Lato, sans-serif;
+    color:#e7e7df;
+    background-color: #1b1b1b;
+    border-radius: 1rem;
+    border-width:0.15rem;
+    width:20rem;
+    height:5rem;
+    border-color: gray;
+    border-style: solid;
+    transition: all 0.2s;
+}
+.startbtn:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.MCQ {
+    font: 1.75rem Lato, sans-serif;
+    color:#e7e7df;
+    background-color: #1b1b1b;
+    border-radius: 1rem;
+    border-width:0.15rem;
+    width:20rem;
+    height:5rem;
+    border-color: gray;
+    border-style: solid;
+    transition: all 0.15s;
+    display: inline-block;
+    transform: scale(0.95)
+}
+.MCQ:hover{
+    transform: scale(1.00);
+    cursor: pointer;
+}
+
+
+h5 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    color: #000000;
+    font: 3rem Lato, sans-serif;
+    text-align: center;
+    display: block;
+    height: 60px;
+    width: 60px;
+    line-height: 60px;
+
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+
+    background-color:#f3f0f0;
+    color: black;
+    text-align: center;
+    font-size: 2em;
+}
+
+#confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.confetti {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background-image: url('confetti.png');
+    background-size: contain;
+    border-radius: 5px;
+    opacity: 0;
+    animation: confetti-fall 3s ease-out forwards;
+}
+
+
+@keyframes confetti-fall {
+    0% {
+        opacity: 1;
+        transform: translateY(-50px) rotate(0deg) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(1000px) rotate(720deg) scale(2);
+    }
+}
+

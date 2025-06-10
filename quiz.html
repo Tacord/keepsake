@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<head>
+    <title>The Quiz</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <style>
+        body {
+            background-image: url('nerd background.png');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: repeat;
+        }
+    </style>
+    <div class="centered">
+        <div class="intro">
+        <div class="rainbow">
+            <center>
+                <h5 style="display: inline-block;" id="question-number">1</h5>
+                <h2 style="display: inline-block; color:#ffffff" id="question-text">Which CSS property changes text color?</h2>
+                <br>
+                <div id="options-container">
+                    <button onclick="checkAnswer(this, 'background-color')" class="MCQ">background-color</button>
+                    <button onclick="checkAnswer(this, 'font-color')" class="MCQ">font-color</button>
+                    <br>
+                    <button onclick="checkAnswer(this, 'color')" class="MCQ">color</button>
+                    <button onclick="checkAnswer(this, 'rgb')" class="MCQ">rgb</button>
+                </div>
+                <br>
+                <h3 style="color: white;" id="result"></h3>
+                <div id="confetti-container"></div>
+            </center>
+            </div>
+        </div>
+    </div>
+    <script>
+        let clicked = false;
+        let currentQuestionIndex = 0;
+
+        const questions = [
+            {
+                question: "Which CSS property changes text color?",
+                options: ["background-color", "font-color", "color", "rgb"],
+                correctAnswer: "color"
+            },
+            {
+                question: "What does HTML stand for?",
+                options: ["Hyper Text Markup Language", "Hype Text Makeup Language", "Happy Tyrannosaurus & Mole Language", "Highly Textual Modern Language"],
+                correctAnswer: "Hyper Text Markup Language"
+            },
+            {
+                question: "What comes at the very start of HTML scripts?",
+                options: ["<head>", "<title>", "<html>", "<!DOCTYPE html>"],
+                correctAnswer: "<!DOCTYPE html>"
+            }
+        ];
+
+        const questionNumberElement = document.getElementById('question-number');
+        const questionTextElement = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const resultElement = document.getElementById("result");
+        const confettiContainer = document.getElementById('confetti-container');
+
+        function displayQuestion() {
+            clicked = false; // Reset clicked for the new question
+            resultElement.textContent = ""; // Clear previous result
+
+            if (currentQuestionIndex < questions.length) {
+                const questionData = questions[currentQuestionIndex];
+                questionNumberElement.textContent = currentQuestionIndex + 1;
+                questionTextElement.textContent = questionData.question;
+
+                optionsContainer.innerHTML = ''; // Clear old options
+                questionData.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.onclick = () => checkAnswer(button, option);
+                    button.classList.add('MCQ');
+                    button.textContent = option;
+                    optionsContainer.appendChild(button);
+                    if (index % 2 === 1 && index < questionData.options.length - 1) { // Add <br> after every two buttons for layout
+                        optionsContainer.appendChild(document.createElement('br'));
+                    }
+                });
+            } else {
+                window.location.href = "results.html";
+            }
+        }
+
+        function checkAnswer(button, selectedAnswer) {
+            if (clicked === false) {
+                clicked = true;
+                const currentQuestion = questions[currentQuestionIndex];
+
+                Array.from(optionsContainer.children).forEach(btn => {
+                    if (btn.tagName === 'BUTTON') {
+                        btn.disabled = true;
+                    }
+                });
+
+                if (selectedAnswer === currentQuestion.correctAnswer) {
+                    resultElement.textContent = "yippee ✅✅✅";
+                    button.style.backgroundColor = '#4bba45';
+                    explodeConfetti();
+                } else {
+                    resultElement.textContent = "wrong 👎👎👎";
+                    button.style.backgroundColor = '#fc6360';
+                    Array.from(optionsContainer.children).forEach(btn => {
+                        if (btn.textContent === currentQuestion.correctAnswer) {
+                            btn.style.backgroundColor = '#4bba45';
+                        }
+                    });
+                }
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    displayQuestion();
+                }, 3000); 
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', displayQuestion);
+
+
+        function createConfetti() {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        const startX = Math.random() * window.innerWidth - 200;
+        const startY = Math.random() * 50 - 100;
+        const rotation = Math.random() * 360;
+        const scale = Math.random() * 0.5 + 0.75;
+        const animationDelay = Math.random() * 0.5;
+
+        confetti.style.left = `${startX}px`;
+        confetti.style.top = `${startY}px`;
+        confetti.style.transform = `rotate(<span class="math-inline">\{rotation\}deg\) scale\(</span>{scale})`;
+        confetti.style.animationDelay = `${animationDelay}s`;
+
+
+        confettiContainer.appendChild(confetti);
+
+
+        // Remove confetti after animation
+        confetti.addEventListener('animationend', () => {
+        confetti.remove();
+        });
+        }
+
+
+        function explodeConfetti() {
+        for (let i = 0; i < 100; i++) { // Create more confetti
+        createConfetti();
+        }
+        }
+
+        function correct() {
+            if (clicked === false) {
+                const resultElement = document.getElementById("result");
+                resultElement.textContent = "yippee ✅✅✅";
+                explodeConfetti();
+                clicked = true;
+            }
+        }
+        function incorrect() {
+            if (clicked === false) {
+                const resultElement = document.getElementById("result");
+                resultElement.textContent = "wrong 👎👎👎";
+                clicked = true;
+            }
+        }
+    </script>
+</body>
+</html>
